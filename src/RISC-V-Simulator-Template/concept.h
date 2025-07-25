@@ -11,7 +11,7 @@ using max_ssize_t = std::int32_t;
 static constexpr std::size_t kMaxLength = std::numeric_limits<max_size_t>::digits;
 
 template<std::size_t _Len>
-consteval max_size_t make_mask() {
+constexpr max_size_t make_mask() {
 	static_assert(_Len <= kMaxLength, "Mask length out of range");
 	return _Len == kMaxLength ? ~max_size_t(0) : (max_size_t(1) << _Len) - 1;
 }

@@ -5,6 +5,7 @@
 #ifndef MEMORY_HPP
 #define MEMORY_HPP
 #include <map>
+#include <iostream>
 #include "Instruction.hpp"
 #include "RISC-V-Simulator-Template/tools.h"
 
@@ -37,30 +38,41 @@ Interface_Mode unsigned_to_Interface_Mode(unsigned int x) {
 }
 
 void store_data_in_memory(const unsigned int address, const Bit<32> &data, const Interface_Mode mode = WORD) {
-        memory[address] = to_unsigned(data.range<7, 0>());
-        if (mode == HALF_WORD || mode == UNSIGNED_HALF_WORD || mode == WORD) {
-            memory[address + 1] = to_unsigned(data.range<15, 8>());
-            if (mode == WORD) {
-                memory[address + 2] = to_unsigned(data.range<23, 16>());
-                memory[address + 3] = to_unsigned(data.range<31, 24>());
-            }
+    memory[address] = to_unsigned(data.range<7, 0>());
+    if (mode == HALF_WORD || mode == UNSIGNED_HALF_WORD || mode == WORD) {
+        memory[address + 1] = to_unsigned(data.range<15, 8>());
+        if (mode == WORD) {
+            memory[address + 2] = to_unsigned(data.range<23, 16>());
+            memory[address + 3] = to_unsigned(data.range<31, 24>());
         }
     }
+}
+
+void store_data_in_memory(const unsigned int address, const unsigned int &data, const Interface_Mode mode = WORD) {
+    memory[address] = data & 127;
+    if (mode == HALF_WORD || mode == UNSIGNED_HALF_WORD || mode == WORD) {
+        memory[address + 1] = (data / 128) & 127;
+        if (mode == WORD) {
+            memory[address + 2] = (data / 128 / 128) & 127;
+            memory[address + 3] = (data / 128 / 128 / 128) & 127;
+        }
+    }
+}
 
 Bit<32> load_data_in_memory(const unsigned int address, const Interface_Mode mode = WORD) {
         switch (mode) {
             case BYTE: {
-                Bit<32> data;
+                Bit<8> data;
                 data.set<7,0>(memory[address]);
                 return to_signed(data);
             }
             case UNSIGNED_BYTE: {
-                Bit<32> data;
+                Bit<16> data;
                 data.set<7,0>(memory[address]);
                 return to_unsigned(data);
             }
             case HALF_WORD: {
-                Bit<32> data;
+                Bit<16> data;
                 data.set<7,0>(memory[address]);
                 data.set<15,8>(memory[address + 1]);
                 return to_signed(data);
@@ -73,10 +85,19 @@ Bit<32> load_data_in_memory(const unsigned int address, const Interface_Mode mod
             }
             case WORD: {
                 Bit<32> data;
+                // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 data.set<7,0>(memory[address]);
+                // std::cerr << "memory[" << address << "] = " << memory[address] << std::endl;
+                // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 data.set<15,8>(memory[address + 1]);
+                // std::cerr << "memory[" << address + 1 << "] = "  << memory[address + 1] << std::endl;
+                // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 data.set<23,16>(memory[address + 2]);
+                // std::cerr << "memory[" << address + 2 << "] = "  << memory[address + 2] << std::endl;
+                // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 data.set<31,24>(memory[address + 3]);
+                // std::cerr << "memory[" << address + 3 << "] = "  << memory[address + 3] << std::endl;
+                // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 return data;
             }
             default: {
@@ -95,17 +116,12 @@ void load_instructions() {
             for (int i = 1; i <= 8; i++)
                 next_positions = next_positions * 16 + sixteen_to_ten(str[i]);
             current_positions = next_positions;
-            continue;
         }
-        int operator_number = 0;
-        for (int i = 0, tmp = 1; i <= 3; i++, tmp <<= 4) {
-            operator_number += decode_two(str) * tmp;
-            if (i != 3) std::cin >> str;
+        else {
+            memory[current_positions] = decode_two(str);
+            // std::cerr << "memory[" << current_positions << "] = " << memory[current_positions] << std::endl;
+            current_positions++;
         }
-
-        memory[current_positions] = operator_number;
-        current_positions++;
-        // decode_operator(operator_number);
     }
 }
 
