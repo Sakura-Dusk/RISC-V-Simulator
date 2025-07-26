@@ -5,7 +5,10 @@
 #ifndef INSTRUCTION_HPP
 #define INSTRUCTION_HPP
 
+#include "Controller.hpp"
 #include "RISC-V-Simulator-Template/tools.h"
+#include "iostream"
+#include "Controller.hpp"
 
 enum Operator_Kind {
     LUI,
@@ -159,6 +162,60 @@ auto get_r2(Bit<32> word) {
 
 auto get_rd(Bit<32> word) {
     return to_unsigned(word.range<11, 7>());
+}
+
+std::string get_reg_name(unsigned int x) {
+    if (x == 0) return "zero";
+    if (x == 1) return "ra";
+    if (x == 2) return "sp";
+    if (x == 3) return "gp";
+    if (x == 4) return "tp";
+    if (x == 5) return "t0";
+    if (x == 6) return "t1";
+    if (x == 7) return "t2";
+    if (x == 8) return "s0";
+    if (x == 9) return "s1";
+    if (x == 10) return "a0";
+    if (x == 11) return "a1";
+    if (x == 12) return "a2";
+    if (x == 13) return "a3";
+    if (x == 14) return "a4";
+    if (x == 15) return "a5";
+    if (x == 16) return "a6";
+    if (x == 17) return "a7";
+    if (x == 18) return "s2";
+    if (x == 19) return "s3";
+    if (x == 20) return "s4";
+    if (x == 21) return "s5";
+    if (x == 22) return "s6";
+    if (x == 23) return "s7";
+    if (x == 24) return "s8";
+    if (x == 25) return "s9";
+    if (x == 26) return "s10";
+    if (x == 27) return "s11";
+    if (x == 28) return "t3";
+    if (x == 29) return "t4";
+    if (x == 30) return "t5";
+    if (x == 31) return "t6";
+    return "";
+}
+
+char ten_to_sixteen(int x) {
+    if (x < 10) return '0' + x;
+    return 'A' + x - 10;
+}
+
+std::string write_16_from_10(int x) {
+    if (x == 0) return "0";
+    std::string res = "";
+    bool rev = false;
+    if (x < 0) rev = true, x = -x;
+    while (x) {
+        res = ten_to_sixteen(x % 16) + res;
+        x /= 16;
+    }
+    if (rev) res = '-' + res;
+    return res;
 }
 
 auto get_imm(Bit<32> word, Operator_Kind opk) {

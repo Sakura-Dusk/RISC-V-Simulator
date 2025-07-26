@@ -49,14 +49,15 @@ void store_data_in_memory(const unsigned int address, const Bit<32> &data, const
 }
 
 void store_data_in_memory(const unsigned int address, const unsigned int &data, const Interface_Mode mode = WORD) {
-    memory[address] = data & 127;
+    memory[address] = data & 255;
     if (mode == HALF_WORD || mode == UNSIGNED_HALF_WORD || mode == WORD) {
-        memory[address + 1] = (data / 128) & 127;
+        memory[address + 1] = (data / 256) & 255;
         if (mode == WORD) {
-            memory[address + 2] = (data / 128 / 128) & 127;
-            memory[address + 3] = (data / 128 / 128 / 128) & 127;
+            memory[address + 2] = (data / 256 / 256) & 255;
+            memory[address + 3] = (data / 256 / 256 / 256) & 255;
         }
     }
+    // std::cerr << "store data ---" << memory[address] << " " << memory[address + 1] << " " << memory[address + 2] << " " << memory[address + 3] << std::endl;
 }
 
 Bit<32> load_data_in_memory(const unsigned int address, const Interface_Mode mode = WORD) {
@@ -84,6 +85,8 @@ Bit<32> load_data_in_memory(const unsigned int address, const Interface_Mode mod
                 return to_unsigned(data);
             }
             case WORD: {
+                // std::cerr << memory[address] << " " << memory[address + 1] << " " << memory[address + 2] << " " << memory[address + 3] << std::endl;
+
                 Bit<32> data;
                 // std::cerr << "data = " << to_unsigned(data) << std::endl;
                 data.set<7,0>(memory[address]);
