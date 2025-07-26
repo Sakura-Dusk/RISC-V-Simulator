@@ -2,7 +2,7 @@
 #include "memory.hpp"
 
 int main() {
-    freopen("input.data", "r", stdin);
+    // freopen("input.data", "r", stdin);
 
     load_instructions();
 
