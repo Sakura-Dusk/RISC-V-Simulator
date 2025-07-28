@@ -8,38 +8,35 @@
 #include "RISC-V-Simulator-Template/module.h"
 #include "RISC-V-Simulator-Template/tools.h"
 
+namespace ALU {
+    using wireflag = Wire<1>;
+    using wiredata = Wire<32>;
 
-struct ALU_Input {
-    Wire<32> word;
-    Wire<1> can_start;
-};
+    struct ALU_Input {
+        wiredata rs1_value;
+        wiredata rs2_value;
+        Wire<4> mode;
+        Wire<1> need_load_before_clac;
+    };
 
-struct ALU_Output {
-    Wire<32> output;
-    Wire<32> rd;
-};
+    struct ALU_Output {
+        Register<32> output;
+        Register<1> is_done;
+    };
 
-struct ALU: dark::Module<ALU_Input, ALU_Output> {
-    void work() {
-        if (!can_start) return ;
-        Operator_Kind now = decode_operator(word);
-        switch (now) {
-            case ADD: {
-                int r1 = get_r1(word), r2 = get_r2(word);
-                output <= r1 + r2;
-                rd <= get_rd(word);
-                break;
-            }
-            case SUB: {
-                int r1 = get_r1(word), r2 = get_r2(word);
-                output <= r1 - r2;
-                rd <= get_rd(word);
-                break;
-            }
-            default: assert(1);
+    struct ALU_inside {
+        bool op;
+        unsigned now_rs1_value, now_rs2_value;
+        Bit<4> now_mode;
+    };
+
+    struct ALU: dark::Module<ALU_Input, ALU_Output> {
+        void work() {
+
         }
-    }
-};
+    };
+
+}
 
 
 #endif //ALU_HPP

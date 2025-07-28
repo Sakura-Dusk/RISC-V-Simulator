@@ -39,6 +39,12 @@ public:
 		this->_M_assigned = true;
 		this->_M_new = static_cast<max_size_t>(value);
 	}
+	template<concepts::bit_convertible<_Len> _Tp>
+	void assign(const _Tp &value) {
+		debug::assert(!this->_M_assigned, "Register is double assigned in this cycle.");
+		this->_M_assigned = true;
+		this->_M_new = static_cast<max_size_t>(value);
+	}
 
 	explicit operator max_size_t() const { return this->_M_old; }
 	explicit operator bool() const { return this->_M_old; }

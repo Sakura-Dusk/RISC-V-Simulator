@@ -13,18 +13,24 @@
 using flag = Register<1>;
 using number = Register<32>;
 using position = Bit<32>;
-//
-// namespace Controller {
-//     struct Instruction {
-//         flag is_ready;
-//         Operator_Kind op;
-//         number rs1_number, rs2_number;
-//         number immediate_number;
-//         number result;
-//         position PC;
-//         flag should_end_program;
-//     };
-// }
+
+namespace Controller {
+    struct Data_Not_Sure {
+        number data;
+        flag not_sure;
+    };
+
+    struct Instruction {
+        flag is_ready;
+        Operator_Kind op;
+        number rs1, rs2;
+        flag rs1_sure, rs2_sure;
+        number immediate_number;
+        number result;
+        position PC;
+        flag should_end_program;
+    };
+}
 
 //first do it linear
 
@@ -537,7 +543,7 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
         reg[0] = 0;
     }
 
-    int counter;
+    int counter = 0;
 
     void Run_once() {
         Bit<32> instruction = Instruction_Fetch();

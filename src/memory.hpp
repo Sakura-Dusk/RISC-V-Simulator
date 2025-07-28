@@ -6,8 +6,12 @@
 #define MEMORY_HPP
 #include <map>
 #include <iostream>
+
+#include "Controller.hpp"
 #include "Instruction.hpp"
+#include "Value.h"
 #include "RISC-V-Simulator-Template/tools.h"
+#include "Basic.h"
 
 std::map<unsigned int, unsigned int> memory;
 
@@ -130,27 +134,80 @@ void load_instructions() {
 
 struct Memory_Input {
     Wire<32> address;
-    Wire<1> is_load;
-    Wire<1> is_store;
+    Wire<32> imm;
+    Wire<1> need_load_in_memory;
+    Wire<1> need_clac;
     Wire<32> store_data;
     Wire<3> mode;
 };
 
 struct Memory_Output {
-    Wire<32> load_data;
+    Register<1> is_done;
+    Register<32> output;
 };
 
-struct Memory_Inner {
-    Register<32> electronic_tick;
+struct Memory_inside {
+    bool op;
+    unsigned addr, value;
+    Bit<3> now_mode;
 };
 
-struct Memory : dark::Module<Memory_Input, Memory_Output, Memory_Inner> {
+struct Memory : dark::Module<Memory_Input, Memory_Output, Memory_inside> {
     void work() override {
-        if (electronic_tick >= 5) return ;
-        electronic_tick <= (electronic_tick + 1);
-        if (electronic_tick == 3) {
-            if (is_store) store_data_in_memory(to_unsigned(address), store_data, unsigned_to_Interface_Mode(to_unsigned(mode)));
-            if (is_load) load_data <= load_data_in_memory(to_unsigned(address), unsigned_to_Interface_Mode(to_unsigned(mode)));
+        if (!to_unsigned(need_clac) && !op) {
+            is_done <= false;
+            output <= 0;
+            return ;
+        }
+        if (to_unsigned(need_clac)) {
+            op = true;
+            addr = to_unsigned(address) + to_unsigned(imm);
+            value = to_unsigned(store_data);
+            now_mode = mode;
+            is_done <= false;
+            output <= 0;
+            return ;
+        }
+        if (op) {
+            op = 0;
+            is_done <= true;
+            switch (to_unsigned(now_mode)) {
+                case 0b000: {//load byte
+                    output <= load_data_in_memory(addr, BYTE);
+                    break;
+                }
+                case 0b001: {//load unsigned byte
+                    output <= load_data_in_memory(addr, UNSIGNED_BYTE);
+                    break;
+                }
+                case 0b010: {//load half word
+                    output <= load_data_in_memory(addr, HALF_WORD);
+                    break;
+                }
+                case 0b011: {//load unsigned half word
+                    output <= load_data_in_memory(addr, UNSIGNED_HALF_WORD);
+                    break;
+                }
+                case 0b100: {//load word
+                    output <= load_data_in_memory(addr, WORD);
+                    break;
+                }
+                case 0b101: {//store byte
+                    output <= 0;
+                    store_data_in_memory(addr, value, BYTE);
+                    break;
+                }
+                case 0b110: {//store half word
+                    output <= 0;
+                    store_data_in_memory(addr, value, HALF_WORD);
+                    break;
+                }
+                case 0b111: {//store word
+                    output <= 0;
+                    store_data_in_memory(addr, value, WORD);
+                    break;
+                }
+            }
         }
     }
 };

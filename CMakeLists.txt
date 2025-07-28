@@ -7,4 +7,5 @@ add_executable(code src/main.cpp
         src/Instruction.hpp
         src/memory.hpp
         src/ALU.hpp
-        src/Controller.hpp)
+        src/Controller.hpp
+        src/Value.h)
