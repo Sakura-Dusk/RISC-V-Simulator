@@ -146,11 +146,11 @@ namespace ALU {
                 break;
             }
             case 0b0011: {// >> (unsigned)
-                alu[1].output = (alu[1].rs1_value >> alu[1].rs2_value);
+                alu[1].output = (static_cast<unsigned int>(alu[1].rs1_value) >> static_cast<unsigned int>(alu[1].rs2_value));
                 break;
             }
             case 0b0100: {// >> (signed)
-                alu[1].output = static_cast<unsigned>(static_cast<signed>(alu[1].rs1_value) >> alu[1].rs2_value);
+                alu[1].output = static_cast<unsigned>(static_cast<signed>(alu[1].rs1_value) >> static_cast<unsigned int>(alu[1].rs2_value));
                 break;
             }
             case 0b0101: {//and
@@ -166,7 +166,7 @@ namespace ALU {
                 break;
             }
             case 0b1000: {//< (unsigned)
-                alu[1].output = (alu[1].rs1_value < alu[1].rs2_value);
+                alu[1].output = (static_cast<unsigned int>(alu[1].rs1_value) < static_cast<unsigned int>(alu[1].rs2_value));
                 break;
             }
             case 0b1001: {//< (signed)
@@ -174,7 +174,7 @@ namespace ALU {
                 break;
             }
             case 0b1010: {//>= (unsigned)
-                alu[1].output = (alu[1].rs1_value >= alu[1].rs2_value);
+                alu[1].output = (static_cast<unsigned int>(alu[1].rs1_value) >= static_cast<unsigned int>(alu[1].rs2_value));
                 break;
             }
             case 0b1011: {//>= (signed)

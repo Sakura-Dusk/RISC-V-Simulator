@@ -55,123 +55,123 @@ namespace Simple_Controller {
 
 void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
     if (instruction == 0x00008067) {
-        std::cerr << "ret\n";
+        std::cout << "ret\n";
         return ;
     }
     switch (op) {
         case LUI:
-            std::cerr << "LUI " << get_reg_name(get_rd(instruction)) << " " << std::hex << get_imm(instruction, LUI) << std::dec << std::endl;
+            std::cout << "LUI " << get_reg_name(get_rd(instruction)) << " " << std::hex << get_imm(instruction, LUI) << std::dec << std::endl;
             break;
         case AUIPC:
-            std::cerr << "AUIPC " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, AUIPC) << std::endl;
+            std::cout << "AUIPC " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, AUIPC) << std::endl;
             break;
         case JAL:
-            std::cerr << "JAL " << get_reg_name(get_rd(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, JAL) << std::dec << std::endl;
+            std::cout << "JAL " << get_reg_name(get_rd(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, JAL) << std::dec << std::endl;
             break;
         case JALR:
-            std::cerr << "JALR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, JALR) << std::endl;
+            std::cout << "JALR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, JALR) << std::endl;
             break;
         case BEQ:
-            std::cerr << "BEQ " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BEQ) << std::dec << std::endl;
+            std::cout << "BEQ " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BEQ) << std::dec << std::endl;
             break;
         case BNE:
-            std::cerr << "BNE " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BNE) << std::dec << std::endl;
+            std::cout << "BNE " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BNE) << std::dec << std::endl;
             break;
         case BLT:
-            std::cerr << "BLT " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BLT) << std::dec << std::endl;
+            std::cout << "BLT " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BLT) << std::dec << std::endl;
             break;
         case BGE:
-            std::cerr << "BGE " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BGE) << std::dec << std::endl;
+            std::cout << "BGE " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BGE) << std::dec << std::endl;
             break;
         case BLTU:
-            std::cerr <<"BLTU " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BLTU) << std::dec << std::endl;
+            std::cout <<"BLTU " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << std::hex << to_unsigned(PC) + get_imm(instruction, BLTU) << std::dec << std::endl;
             break;
         case BGEU:
-            std::cerr << "BGEU " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << to_unsigned(PC) + get_imm(instruction, BGEU) << std::endl;
+            std::cout << "BGEU " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << " " << to_unsigned(PC) + get_imm(instruction, BGEU) << std::endl;
             break;
         case LB:
-            std::cerr << "LB " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LB) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "LB " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LB) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case LH:
-            std::cerr << "LH " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LH) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "LH " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LH) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case LW:
-            std::cerr << "LW " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LW) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "LW " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LW) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case LBU:
-            std::cerr << "LBU " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LBU) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "LBU " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LBU) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case LHU:
-            std::cerr << "LHU " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LHU) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "LHU " << get_reg_name(get_rd(instruction)) << " " << get_imm(instruction, LHU) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case SB:
-            std::cerr << "SB " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SB) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "SB " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SB) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case SH:
-            std::cerr << "SH " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SH) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "SH " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SH) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case SW:
-            std::cerr << "SW " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SW) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
+            std::cout << "SW " << get_reg_name(get_r2(instruction)) << " " << get_imm(instruction, SW) << "(" << get_reg_name(get_r1(instruction)) << ")\n";
             break;
         case ADDI:
-            std::cerr << "ADDI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ADDI) << std::endl;
+            std::cout << "ADDI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ADDI) << std::endl;
             break;
         case SLTI:
-            std::cerr << "SLTI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLTI) << std::endl;
+            std::cout << "SLTI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLTI) << std::endl;
             break;
         case SLTIU:
-            std::cerr << "SLTIU " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLTIU) << std::endl;
+            std::cout << "SLTIU " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLTIU) << std::endl;
             break;
         case XORI:
-            std::cerr << "XORI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, XORI) << std::endl;
+            std::cout << "XORI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, XORI) << std::endl;
             break;
         case ORI:
-            std::cerr << "ORI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ORI) << std::endl;
+            std::cout << "ORI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ORI) << std::endl;
             break;
         case ANDI:
-            std::cerr << "ANDI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ANDI) << std::endl;
+            std::cout << "ANDI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, ANDI) << std::endl;
             break;
         case SLLI:
-            std::cerr << "SLLI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLLI) << std::endl;
+            std::cout << "SLLI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SLLI) << std::endl;
             break;
         case SRLI:
-            std::cerr << "SRLI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SRLI) << std::endl;
+            std::cout << "SRLI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SRLI) << std::endl;
             break;
         case SRAI:
-            std::cerr << "SRAI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SRAI) << std::endl;
+            std::cout << "SRAI " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_imm(instruction, SRAI) << std::endl;
             break;
         case ADD:
-            std::cerr << "ADD " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "ADD " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SUB:
-            std::cerr << "SUB " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SUB " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SLL:
-            std::cerr << "SLL " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SLL " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SLT:
-            std::cerr << "SLT " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SLT " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SLTU:
-            std::cerr << "SLTU " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SLTU " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case XOR:
-            std::cerr << "XOR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "XOR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SRL:
-            std::cerr << "SRL " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SRL " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case SRA:
-            std::cerr << "SRA " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "SRA " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case OR:
-            std::cerr << "OR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "OR " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         case AND:
-            std::cerr << "AND " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
+            std::cout << "AND " << get_reg_name(get_rd(instruction)) << " " << get_reg_name(get_r1(instruction)) << " " << get_reg_name(get_r2(instruction)) << std::endl;
             break;
         default:
-            std::cerr << "ERROR_KIND\n";
+            std::cout << "ERROR_KIND\n";
             break;
         }
     }
@@ -419,7 +419,7 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
                 auto rs1_data = reg[rs1];
                 unsigned int imm = get_imm(instruction, LW);
                 auto read_address = static_cast<unsigned int>(rs1_data) + imm;
-                // std::cerr << "pos = " << read_address << std::endl;
+                // std::cout << "pos = " << read_address << std::endl;
                 reg[rd] = to_signed(load_data_in_memory(read_address, WORD));
                 PC = PC + 4;
                 break;
@@ -453,7 +453,7 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
                 auto rs2_data = reg[rs2];
                 unsigned int imm = get_imm(instruction, SW);
                 auto write_address = static_cast<unsigned int>(rs1_data) + imm;
-                // std::cerr << "pos = " << write_address << std::endl;
+                // std::cout << "pos = " << write_address << std::endl;
                 store_data_in_memory(write_address, rs2_data, WORD);
                 PC = PC + 4;
                 break;
@@ -560,21 +560,21 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
     void Run_once() {
         Bit<32> instruction = Instruction_Fetch();
 
-        // std::cerr << "PC = " << to_unsigned(PC) << std::endl;
-        // std::cerr << "instruction = " << to_unsigned(instruction) << std::endl;
+        // std::cout << "PC = " << to_unsigned(PC) << std::endl;
+        // std::cout << "instruction = " << to_unsigned(instruction) << std::endl;
 
         Operator_Kind operator_kind = decode_operator(instruction);
         cerr_write_Operator_Kind(operator_kind, instruction);
 
         if (operator_kind == ERROR_KIND) {
-            // std::cerr << "Fail to decode the instruction!\n PC = " << to_unsigned(PC);
+            // std::cout << "Fail to decode the instruction!\n PC = " << to_unsigned(PC);
             exit(0);
         }
 
         Instruction_Runner(operator_kind, instruction);
 
-        counter++; std::cerr << "counter = " << counter << std::endl;
-        for (int i = 0; i < 32; i++) std::cerr << reg[i] << " "; std::cerr << std::endl;
+        counter++; std::cout << "counter = " << counter << std::endl;
+        for (int i = 0; i < 32; i++) std::cout << reg[i] << " "; std::cout << std::endl;
     }
 }
 

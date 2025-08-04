@@ -540,7 +540,8 @@ void launch() {
 }
 
 int main() {
-    // freopen("../testcases/array_test2.data", "r", stdin);
+    // freopen("../testcases/basicopt1.data", "r", stdin);
+    // freopen("../output_wrong.txt", "w", stdout);
 
     load_instructions();
 
@@ -556,8 +557,8 @@ int main() {
 
         flush_zero_register();
         // for (int i = 0; i < 32; i++)
-        //     std::cerr << rrs[i].value << " ";
-        // std::cerr << std::endl;
+        //     std::cout << rrs[i].value << " ";
+        // std::cout << std::endl;
     }
 
     // dark::CPU cpu;
@@ -572,8 +573,8 @@ int main() {
     //
     //     Simple_Controller::Run_once();
     // }
-    //
-    // std::cout << Simple_Controller::result;
+
+    std::cout << Simple_Controller::result;
 
     return 0;
 }
