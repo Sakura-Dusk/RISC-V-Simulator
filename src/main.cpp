@@ -540,7 +540,7 @@ void launch() {
 }
 
 int main() {
-    freopen("../testcases/array_test2.data", "r", stdin);
+    // freopen("../testcases/array_test2.data", "r", stdin);
 
     load_instructions();
 
