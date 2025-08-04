@@ -21,6 +21,7 @@ namespace Controller {
     };
 
     struct Instruction {
+        flag inside;
         flag is_ready;
         Operator_Kind op;
         number rs1, rs2;
@@ -29,6 +30,17 @@ namespace Controller {
         number result;
         position PC;
         flag should_end_program;
+    };
+
+    struct Regist {
+        Register<32> data;
+        flag is_in_clac;
+        number clac_id;
+    };
+
+    struct Rstype {
+        Instruction reservation_staion[16];
+        bool have_value[16];
     };
 }
 
@@ -552,7 +564,7 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
         // std::cerr << "instruction = " << to_unsigned(instruction) << std::endl;
 
         Operator_Kind operator_kind = decode_operator(instruction);
-        // cerr_write_Operator_Kind(operator_kind, instruction);
+        cerr_write_Operator_Kind(operator_kind, instruction);
 
         if (operator_kind == ERROR_KIND) {
             // std::cerr << "Fail to decode the instruction!\n PC = " << to_unsigned(PC);
@@ -561,9 +573,74 @@ void cerr_write_Operator_Kind(Operator_Kind op, Bit<32> instruction) {
 
         Instruction_Runner(operator_kind, instruction);
 
-        // counter++; std::cerr << "counter = " << counter << std::endl;
-        // for (int i = 0; i < 32; i++) std::cerr << reg[i] << " "; std::cerr << std::endl;
+        counter++; std::cerr << "counter = " << counter << std::endl;
+        for (int i = 0; i < 32; i++) std::cerr << reg[i] << " "; std::cerr << std::endl;
     }
 }
+
+// namespace Controller_true {
+//     struct Controller_input {
+//         Wire<32> ALU_output;
+//         Wire<1> ALU_is_done;
+//
+//         Wire<32> memory_output;
+//         Wire<1> memory_is_done;
+//     };
+//
+//     struct Controller_output {
+//         Register<1> should_end_program;
+//
+//         Register<32> ALU_rs1_value;
+//         Register<32> ALU_rs2_value;
+//         Register<4> ALU_mode;
+//         Register<1> ALU_need_load_before_clac;
+//
+//         Register<32> memory_address;
+//         Register<32> memory_imm;
+//         Register<1> memory_need_load_in_memory;
+//         Register<1> memory_need_clac;
+//         Register<32> memory_store_data;
+//         Register<3> memory_mode;
+//     };
+//
+//     struct Controller_inside {
+//         std::array<Controller::Regist, 32> reg;
+//         std::array<Controller::Instruction, 8> Rob;
+//         std::array<Controller::Rstype, 8> Rs;
+//         Register<4> buffer_head, buffer_tail;
+//         Register<32> PC, flush_PC;
+//         Register<1> need_flush;
+//         Register<32> memory_pos;
+//     };
+//
+//     struct Controller_true: dark::Module<Controller_input, Controller_output, Controller_inside> {
+//         bool memory_busy, ALU_busy;
+//         int load_pos;
+//
+//         void flush() {
+//             buffer_head.assign(0); buffer_tail.assign(0);
+//             PC.assign(flush_PC);
+//             for (int i = 0; i < 8; i++) instructions_buffer[i].inside.assign(false);
+//             for (int i = 0; i < 32; i++) reg[i].is_in_clac.assign(false);
+//             memory_need_clac.assign(false);
+//             need_flush.assign(false);
+//         }
+//
+//         void work() {
+//             if (need_flush) {
+//                 flush(); return ;
+//             }
+//
+//             if (memory_is_done) {
+//                 memory_busy = false;
+//                 if (load_pos) {
+//                     reg[load_pos].data <= memory_output;
+//                     instructions_buffer[to_unsigned(memory_pos)].result <= memory_output;
+//                 }
+//                 instructions_buffer[to_unsigned(memory_pos)].
+//             }
+//         }
+//     };
+// }
 
 #endif //CONTROLLER_HPP

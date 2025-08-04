@@ -11,7 +11,6 @@
 #include "Instruction.hpp"
 #include "Value.h"
 #include "RISC-V-Simulator-Template/tools.h"
-#include "Basic.h"
 
 std::map<unsigned int, unsigned int> memory;
 
@@ -159,17 +158,8 @@ struct Memory : dark::Module<Memory_Input, Memory_Output, Memory_inside> {
             output <= 0;
             return ;
         }
-        if (to_unsigned(need_clac)) {
-            op = true;
-            addr = to_unsigned(address) + to_unsigned(imm);
-            value = to_unsigned(store_data);
-            now_mode = mode;
-            is_done <= false;
-            output <= 0;
-            return ;
-        }
         if (op) {
-            op = 0;
+            op = false;
             is_done <= true;
             switch (to_unsigned(now_mode)) {
                 case 0b000: {//load byte
@@ -208,6 +198,15 @@ struct Memory : dark::Module<Memory_Input, Memory_Output, Memory_inside> {
                     break;
                 }
             }
+            return ;
+        }
+        if (to_unsigned(need_clac)) {
+            op = true;
+            addr = to_unsigned(address) + to_unsigned(imm);
+            value = to_unsigned(store_data);
+            now_mode = mode;
+            is_done <= false;
+            output <= 0;
         }
     }
 };

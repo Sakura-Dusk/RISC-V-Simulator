@@ -8,4 +8,7 @@ add_executable(code src/main.cpp
         src/memory.hpp
         src/ALU.hpp
         src/Controller.hpp
-        src/Value.h)
+        src/Value.h
+        src/rs.h
+        src/rob.h
+        src/rrs.h)
